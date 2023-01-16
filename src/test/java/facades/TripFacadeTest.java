@@ -25,7 +25,7 @@ public class TripFacadeTest {
     @BeforeAll
     public static void setUpClass() {
        emf = EMF_Creator.createEntityManagerFactoryForTest();
-       facade = TripFacade.getFacadeExample(emf);
+       facade = TripFacade.getFacade(emf);
     }
 
 //    @AfterAll

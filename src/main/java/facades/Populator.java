@@ -18,9 +18,9 @@ import utils.EMF_Creator;
 public class Populator {
     public static void populate(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        TripFacade fe = TripFacade.getFacadeExample(emf);
-        fe.create(new TripDTO(new Trip("Trip to Denmark", "Denmark", 1000*60*60*24L)));
-        fe.create(new TripDTO(new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L)));
+        TripFacade tf = TripFacade.getFacade(emf);
+        tf.create(new TripDTO(new Trip("Trip to Denmark", "Denmark", 1000*60*60*24L)));
+        tf.create(new TripDTO(new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L)));
     }
     
     public static void main(String[] args) {

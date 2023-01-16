@@ -29,7 +29,7 @@ public class TripFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static TripFacade getFacadeExample(EntityManagerFactory _emf) {
+    public static TripFacade getFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new TripFacade();
@@ -57,14 +57,14 @@ public class TripFacade {
         EntityManager em = emf.createEntityManager();
         Trip trip = em.find(Trip.class, id);
         if (trip == null) {
-            throw new NotFoundException("The RenameMe entity with ID: " + id + " Was not found");
+            throw new NotFoundException("The Trip entity with ID: " + id + " Was not found");
         }
         return new TripDTO(trip);
     }
     
     public List<TripDTO> getAll(){
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Trip> query = em.createQuery("SELECT r FROM Trip r", Trip.class);
+        TypedQuery<Trip> query = em.createQuery("SELECT t FROM Trip t", Trip.class);
         List<Trip> trips = query.getResultList();
         return TripDTO.getDtos(trips);
     }

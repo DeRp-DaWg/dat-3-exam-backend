@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "users")
@@ -24,12 +23,12 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_name", length = 25)
-    private String userName;
+    private String username;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "user_pass")
-    private String userPass;
+    private String password;
     @JoinTable(name = "user_roles", joinColumns = {
             @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
@@ -38,7 +37,7 @@ public class User implements Serializable {
     private String address;
     private String phone;
     private String email;
-    private int year;
+    private int birthYear;
     // TODO: Change gender to enum
     private String gender;
     @ManyToMany(targetEntity = Trip.class)
@@ -59,42 +58,99 @@ public class User implements Serializable {
 
     //TODO Change when password is hashed
     public boolean verifyPassword(String pw){
-        return(pw.equals(userPass));
+        return(pw.equals(password));
     }
 
-    public User(String userName, String userPass) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.username = username;
 
-        this.userPass = userPass;
+        this.password = password;
     }
 
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public User setUsername(String username) {
+        this.username = username;
+        return this;
     }
 
-    public String getUserPass() {
-        return this.userPass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
     }
 
     public List<Role> getRoleList() {
         return roleList;
     }
 
-    public void setRoleList(List<Role> roleList) {
+    public User setRoleList(List<Role> roleList) {
         this.roleList = roleList;
+        return this;
     }
 
-    public void addRole(Role userRole) {
+    public User addRole(Role userRole) {
         roleList.add(userRole);
+        return this;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public User setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public User setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public User setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public int getBirthYear() {
+        return birthYear;
+    }
+
+    public User setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
+        return this;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public User setGender(String gender) {
+        this.gender = gender;
+        return this;
+    }
+
+    public List<Trip> getTrip() {
+        return trip;
+    }
+
+    public User setTrip(List<Trip> trip) {
+        this.trip = trip;
+        return this;
+    }
 }
