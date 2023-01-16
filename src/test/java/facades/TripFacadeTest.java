@@ -1,7 +1,8 @@
 package facades;
 
+import entities.Trip;
 import utils.EMF_Creator;
-import entities.RenameMe;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
@@ -13,24 +14,24 @@ import org.junit.jupiter.api.Test;
 
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
-public class FacadeExampleTest {
+public class TripFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static FacadeExample facade;
+    private static TripFacade facade;
 
-    public FacadeExampleTest() {
+    public TripFacadeTest() {
     }
 
     @BeforeAll
     public static void setUpClass() {
        emf = EMF_Creator.createEntityManagerFactoryForTest();
-       facade = FacadeExample.getFacadeExample(emf);
+       facade = TripFacade.getFacadeExample(emf);
     }
 
-    @AfterAll
-    public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
-    }
+//    @AfterAll
+//    public static void tearDownClass() {
+////        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+//    }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
     //TODO -- Make sure to change the code below to use YOUR OWN entity class
@@ -39,26 +40,17 @@ public class FacadeExampleTest {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new RenameMe("Some txt", "More text"));
-            em.persist(new RenameMe("aaa", "bbb"));
-
+            em.createNamedQuery("Trip.deleteAllRows").executeUpdate();
+            em.persist(new Trip("Trip to Denmark", "Denmark", 1000*60*60*24L));
+            em.persist(new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L));
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    @AfterEach
-    public void tearDown() {
-//        Remove any data after each test was run
-    }
-
-    // TODO: Delete or change this method 
-    @Test
-    public void testAFacadeMethod() throws Exception {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
-    }
-    
-
+//    @AfterEach
+//    public void tearDown() {
+////        Remove any data after each test was run
+//    }
 }
