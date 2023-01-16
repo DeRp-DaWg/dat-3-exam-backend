@@ -1,7 +1,7 @@
 package entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -16,25 +16,20 @@ public class Trip implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Instant instant = Instant.now();
+    private LocalDateTime dateTime = LocalDateTime.now();
     private String location;
     private Long duration;
     @ElementCollection
     private List<String> packingList = new ArrayList<>();
     @ManyToMany(targetEntity = User.class)
     private List<User> users;
+    @OneToMany(targetEntity = Guide.class)
+    private List<Guide> guides;
     
     public Trip() {
     }
 
     public Trip(String name, String location, Long duration) {
-        this.name = name;
-        this.location = location;
-        this.duration = duration;
-    }
-
-    public Trip(Long id, String name, String location, Long duration) {
-        this.id = id;
         this.name = name;
         this.location = location;
         this.duration = duration;
@@ -58,12 +53,12 @@ public class Trip implements Serializable {
         return this;
     }
 
-    public Instant getInstant() {
-        return instant;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public Trip setInstant(Instant instant) {
-        this.instant = instant;
+    public Trip setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
         return this;
     }
 
@@ -96,6 +91,34 @@ public class Trip implements Serializable {
 
     public Trip addPackingListItem(String item) {
         this.packingList.add(item);
+        return this;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public Trip setUsers(List<User> users) {
+        this.users = users;
+        return this;
+    }
+
+    public Trip addUser(User user) {
+        this.users.add(user);
+        return this;
+    }
+
+    public List<Guide> getGuides() {
+        return guides;
+    }
+
+    public Trip setGuides(List<Guide> guides) {
+        this.guides = guides;
+        return this;
+    }
+
+    public Trip addGuide(Guide guide) {
+        this.guides.add(guide);
         return this;
     }
 }

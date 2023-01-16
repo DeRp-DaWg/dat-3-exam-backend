@@ -3,6 +3,7 @@ package dtos;
 import entities.Trip;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class TripDTO {
     private Long id;
     private String name;
-    private Instant instant = Instant.now();
+    private LocalDateTime dateTime = LocalDateTime.now();
     private String location;
     private Long duration;
     private List<String> packingList = new ArrayList<>();
@@ -42,7 +43,7 @@ public class TripDTO {
         if(trip.getId() != null)
             this.id = trip.getId();
         this.name = trip.getName();
-        this.instant = trip.getInstant();
+        this.dateTime = trip.getDateTime();
         this.location = trip.getLocation();
         this.duration = trip.getDuration();
         this.packingList = trip.getPackingList();
@@ -66,12 +67,12 @@ public class TripDTO {
         return this;
     }
 
-    public Instant getInstant() {
-        return instant;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public TripDTO setInstant(Instant instant) {
-        this.instant = instant;
+    public TripDTO setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
         return this;
     }
 
@@ -112,7 +113,7 @@ public class TripDTO {
         return "TripDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", instant=" + instant +
+                ", dateTime=" + dateTime +
                 ", location='" + location + '\'' +
                 ", duration=" + duration +
                 ", packingList=" + packingList +
