@@ -10,9 +10,6 @@ import security.errorhandling.AuthenticationException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author lam@cphbusiness.dk
- */
 public class UserFacade {
 
     private static EntityManagerFactory emf;
@@ -21,11 +18,6 @@ public class UserFacade {
     private UserFacade() {
     }
 
-    /**
-     *
-     * @param _emf
-     * @return the instance of this facade.
-     */
     public static UserFacade getFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
@@ -50,6 +42,18 @@ public class UserFacade {
             em.close();
         }
         return user;
+    }
+
+    public String createRole(Role role) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(role);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return role.getRoleName();
     }
 
     public UserDTO createUser(UserDTO userDTO) {

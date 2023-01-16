@@ -7,10 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author tha
- */
 public class TripDTO {
     private Long id;
     private String name;

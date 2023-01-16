@@ -11,24 +11,13 @@ import javax.persistence.TypedQuery;
 import errorhandling.NotFoundException;
 import utils.EMF_Creator;
 
-/**
- *
- * Rename Class to a relevant name Add add relevant facade methods
- */
 public class TripFacade {
 
     private static TripFacade instance;
     private static EntityManagerFactory emf;
     
-    //Private Constructor to ensure Singleton
     private TripFacade() {}
-    
-    
-    /**
-     * 
-     * @param _emf
-     * @return an instance of this facade class.
-     */
+
     public static TripFacade getFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;

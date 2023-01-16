@@ -9,24 +9,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-/**
- *
- * Rename Class to a relevant name Add add relevant facade methods
- */
 public class GuideFacade {
 
     private static GuideFacade instance;
     private static EntityManagerFactory emf;
 
-    //Private Constructor to ensure Singleton
     private GuideFacade() {}
-    
-    
-    /**
-     * 
-     * @param _emf
-     * @return an instance of this facade class.
-     */
+
     public static GuideFacade getFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
