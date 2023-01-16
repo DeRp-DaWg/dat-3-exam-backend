@@ -22,9 +22,9 @@ public class Trip implements Serializable {
     @ElementCollection
     private List<String> packingList = new ArrayList<>();
     @ManyToMany(targetEntity = User.class)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     @OneToMany(targetEntity = Guide.class)
-    private List<Guide> guides;
+    private List<Guide> guides = new ArrayList<>();
     
     public Trip() {
     }
