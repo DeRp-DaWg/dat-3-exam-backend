@@ -9,6 +9,7 @@ import dtos.GuideDTO;
 import dtos.TripDTO;
 import dtos.UserDTO;
 import entities.Guide;
+import entities.Role;
 import entities.Trip;
 import javax.persistence.EntityManagerFactory;
 
@@ -25,6 +26,8 @@ public class Populator {
         TripFacade tf = TripFacade.getFacade(emf);
         GuideFacade gf = GuideFacade.getFacade(emf);
         UserFacade uf = UserFacade.getFacade(emf);
+        Role roleAdmin = new Role("admin");
+        Role roleUser = new Role("user");
         Trip trip1 = new Trip("Trip to Denmark", "Denmark", 1000*60*60*24L);
         Trip trip2 = new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L);
         Guide guide1 = new Guide("John Doe", "Man", 1995, "Hello :)", "urlofimage");
@@ -37,13 +40,17 @@ public class Populator {
                 .addGuide(guide3);
         User user1 = new User("tripaddict", "1234");
         User user2 = new User("triplover4", "4321");
+        user1.addRole(roleAdmin);
+        user2.addRole(roleUser);
+        uf.createRole(roleAdmin);
+        uf.createRole(roleUser);
+        uf.createUser(new UserDTO(user1));
+        uf.createUser(new UserDTO(user2));
         tf.create(new TripDTO(trip1));
         tf.create(new TripDTO(trip2));
         gf.create(new GuideDTO(guide1));
         gf.create(new GuideDTO(guide2));
         gf.create(new GuideDTO(guide3));
-        uf.createUser(new UserDTO(user1));
-        uf.createUser(new UserDTO(user2));
     }
     
     public static void main(String[] args) {
