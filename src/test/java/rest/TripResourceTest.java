@@ -1,6 +1,8 @@
 package rest;
 
+import entities.Role;
 import entities.Trip;
+import entities.User;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
@@ -66,7 +68,15 @@ public class TripResourceTest {
         trip2 = new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L);
         try {
             em.getTransaction().begin();
+            em.createNamedQuery("User.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             em.createNamedQuery("Trip.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Guide.deleteAllRows").executeUpdate();
+            Role teacherRole = new Role("teacher");
+            User user1 = new User("user1", "1");
+            User user2 = new User("user2", "12");
+            trip1 = new Trip("Trip to Denmark", "Denmark", 1000*60*60*24L);
+            trip2 = new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L);
             em.persist(trip1);
             em.persist(trip2);
             em.getTransaction().commit();

@@ -33,8 +33,8 @@ public class Populator {
         Guide guide1 = new Guide("John Doe", "Man", 1995, "Hello :)", "urlofimage");
         Guide guide2 = new Guide("Jane Doe", "Woman", 1997, "Hi :D", "urlofimage");
         Guide guide3 = new Guide("John Fossil", "Dinosaur", 1901, "I'm very old", "urlofimage");
-        UserDTO user1 = new UserDTO("tripaddict", "1234");
-        UserDTO user2 = new UserDTO("triplover4", "4321");
+        UserDTO user1 = new UserDTO("adminuser", "1234");
+        UserDTO user2 = new UserDTO("user", "1234");
         trip1
                 .addGuide(guide1)
                 .addGuide(guide2);
