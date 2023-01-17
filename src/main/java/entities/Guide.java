@@ -14,8 +14,9 @@ public class Guide implements Serializable {
     private String gender;
     private int birthYear;
     private String profile;
-    private String imageURL;
-    @ManyToOne(targetEntity = Trip.class)
+        private String imageURL;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "trip_id")
     private Trip trip;
 
     public Guide() {
@@ -89,6 +90,20 @@ public class Guide implements Serializable {
 
     public Guide setTrip(Trip trip) {
         this.trip = trip;
+        trip.getGuides().add(this);
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Guide{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birthYear=" + birthYear +
+                ", profile='" + profile + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", trip=" + trip.getName() +
+                '}';
     }
 }

@@ -26,26 +26,27 @@ public class Populator {
         TripFacade tf = TripFacade.getFacade(emf);
         GuideFacade gf = GuideFacade.getFacade(emf);
         UserFacade uf = UserFacade.getFacade(emf);
-        Role roleAdmin = new Role("admin");
-        Role roleUser = new Role("user");
+        String roleAdmin = "admin";
+        String roleUser = "user";
         Trip trip1 = new Trip("Trip to Denmark", "Denmark", 1000*60*60*24L);
         Trip trip2 = new Trip("Trip to Italy", "Italy", 1000*60*60*24*2L);
         Guide guide1 = new Guide("John Doe", "Man", 1995, "Hello :)", "urlofimage");
         Guide guide2 = new Guide("Jane Doe", "Woman", 1997, "Hi :D", "urlofimage");
         Guide guide3 = new Guide("John Fossil", "Dinosaur", 1901, "I'm very old", "urlofimage");
+        UserDTO user1 = new UserDTO("tripaddict", "1234");
+        UserDTO user2 = new UserDTO("triplover4", "4321");
         trip1
                 .addGuide(guide1)
                 .addGuide(guide2);
         trip2
                 .addGuide(guide3);
-        User user1 = new User("tripaddict", "1234");
-        User user2 = new User("triplover4", "4321");
         user1.addRole(roleAdmin);
+        user1.addRole(roleUser);
         user2.addRole(roleUser);
         uf.createRole(roleAdmin);
         uf.createRole(roleUser);
-        uf.createUser(new UserDTO(user1));
-        uf.createUser(new UserDTO(user2));
+        uf.createUser(user1);
+        uf.createUser(user2);
         tf.create(new TripDTO(trip1));
         tf.create(new TripDTO(trip2));
         gf.create(new GuideDTO(guide1));

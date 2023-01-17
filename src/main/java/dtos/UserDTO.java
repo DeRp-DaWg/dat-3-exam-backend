@@ -9,7 +9,7 @@ import java.util.List;
 public class UserDTO {
     private String username;
     private String password;
-    private List<String> roles;
+    private List<String> roles = new ArrayList<>();
 
     public UserDTO(String username, String password) {
         this.username = username;
@@ -53,6 +53,11 @@ public class UserDTO {
 
     public UserDTO setRoles(List<String> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public UserDTO addRole(String role) {
+        this.roles.add(role);
         return this;
     }
 }

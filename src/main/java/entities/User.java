@@ -1,5 +1,7 @@
 package entities;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,15 +58,13 @@ public class User implements Serializable {
 
     public User() {}
 
-    //TODO Change when password is hashed
-    public boolean verifyPassword(String pw){
-        return(pw.equals(password));
+    public boolean verifyPassword(String password){
+        return(BCrypt.checkpw(password, this.password));
     }
 
     public User(String username, String password) {
         this.username = username;
-
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
 
@@ -82,7 +82,7 @@ public class User implements Serializable {
     }
 
     public User setPassword(String password) {
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         return this;
     }
 

@@ -44,16 +44,17 @@ public class UserFacade {
         return user;
     }
 
-    public String createRole(Role role) {
+    public String createRole(String role) {
+        Role newRole = new Role(role);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(role);
+            em.persist(newRole);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return role.getRoleName();
+        return newRole.getRoleName();
     }
 
     public UserDTO createUser(UserDTO userDTO) {
