@@ -14,6 +14,7 @@ public class TripDTO {
     private String location;
     private Long duration;
     private List<String> packingList = new ArrayList<>();
+    private List<GuideDTO> guides = new ArrayList<>();
 
     public TripDTO(Long id, String name, String location, Long duration) {
         this.id = id;
@@ -43,6 +44,7 @@ public class TripDTO {
         this.location = trip.getLocation();
         this.duration = trip.getDuration();
         this.packingList = trip.getPackingList();
+        this.guides = GuideDTO.getDtos(trip.getGuides());
     }
 
     public Long getId() {
@@ -101,6 +103,15 @@ public class TripDTO {
 
     public TripDTO addPackingListItem(List<String> packingList) {
         this.packingList = packingList;
+        return this;
+    }
+
+    public List<GuideDTO> getGuides() {
+        return guides;
+    }
+
+    public TripDTO setGuides(List<GuideDTO> guides) {
+        this.guides = guides;
         return this;
     }
 

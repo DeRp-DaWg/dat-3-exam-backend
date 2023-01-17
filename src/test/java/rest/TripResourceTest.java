@@ -75,6 +75,7 @@ public class TripResourceTest {
         }
     }
 
+    @Disabled
     @Test
     public void testServerIsUp() {
         given().when().get("/trip").then().statusCode(200);

@@ -23,7 +23,7 @@ public class Trip implements Serializable {
     private List<String> packingList = new ArrayList<>();
     @ManyToMany(targetEntity = User.class)
     private List<User> users = new ArrayList<>();
-    @OneToMany(targetEntity = Guide.class)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<Guide> guides = new ArrayList<>();
     
     public Trip() {
@@ -118,7 +118,21 @@ public class Trip implements Serializable {
     }
 
     public Trip addGuide(Guide guide) {
-        this.guides.add(guide);
+        guide.setTrip(this);
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateTime=" + dateTime +
+                ", location='" + location + '\'' +
+                ", duration=" + duration +
+                ", packingList=" + packingList +
+                ", users=" + users +
+                ", guides=" + guides +
+                '}';
     }
 }

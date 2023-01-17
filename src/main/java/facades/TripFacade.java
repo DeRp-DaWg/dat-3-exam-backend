@@ -1,7 +1,11 @@
 package facades;
 
+import dtos.GuideDTO;
 import dtos.TripDTO;
+import entities.Guide;
 import entities.Trip;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,10 +13,8 @@ import javax.persistence.TypedQuery;
 
 //import errorhandling.RenameMeNotFoundException;
 import errorhandling.NotFoundException;
-import utils.EMF_Creator;
 
 public class TripFacade {
-
     private static TripFacade instance;
     private static EntityManagerFactory emf;
     
@@ -29,19 +31,7 @@ public class TripFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public TripDTO create(TripDTO tripDTO){
-        Trip trip = new Trip(tripDTO.getName(), tripDTO.getLocation(), tripDTO.getDuration());
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(trip);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-        return new TripDTO(trip);
-    }
+
     public TripDTO getById(long id) throws NotFoundException {
         EntityManager em = emf.createEntityManager();
         Trip trip = em.find(Trip.class, id);
@@ -56,5 +46,69 @@ public class TripFacade {
         TypedQuery<Trip> query = em.createQuery("SELECT t FROM Trip t", Trip.class);
         List<Trip> trips = query.getResultList();
         return TripDTO.getDtos(trips);
+    }
+
+    public TripDTO create(TripDTO tripDTO){
+        Trip trip = new Trip();
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            updateEntity(em, trip, tripDTO);
+            em.persist(trip);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
+    }
+
+    public TripDTO update(TripDTO tripDTO) {
+        EntityManager em = getEntityManager();
+        Trip trip = em.find(Trip.class, tripDTO.getId());
+        updateEntity(em, trip, tripDTO);
+        try {
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
+    }
+
+    public TripDTO deleteByID(Long tripID) {
+        EntityManager em = getEntityManager();
+        Trip trip = em.find(Trip.class, tripID);
+        try {
+            em.getTransaction().begin();
+            em.remove(trip);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
+    }
+
+    public static void updateEntity(EntityManager em, Trip trip, TripDTO tripDTO) {
+        for (GuideDTO guideDTO : tripDTO.getGuides()) {
+            Long guideID = guideDTO.getId();
+            boolean isNew = guideID == null;
+            if (isNew) {
+                guideID = GuideFacade.getFacade(emf).create(guideDTO).getId();
+            }
+            em.flush();
+            Guide guide = em.find(Guide.class, guideID);
+            if (isNew) {
+                guide.setTrip(trip);
+            } else {
+                GuideFacade.updateEntity(guide, guideDTO);
+            }
+            System.out.println(guide);
+        }
+        trip
+                .setName(tripDTO.getName())
+                .setDateTime(tripDTO.getDateTime())
+                .setLocation(tripDTO.getLocation())
+                .setDuration(tripDTO.getDuration())
+                .setPackingList(tripDTO.getPackingList());
+        System.out.println(trip);
     }
 }
