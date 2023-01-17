@@ -2,6 +2,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dtos.TripDTO;
 import errorhandling.API_Exception;
 import errorhandling.NotFoundException;
@@ -34,6 +36,23 @@ public class TripResource {
     @RolesAllowed({"user"})
     public Response getTripByID(@PathParam("id") Long id) throws NotFoundException {
         TripDTO tripDTO = FACADE.getById(id);
+        return Response.ok().entity(tripDTO).build();
+    }
+
+    @Path("{id}")
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed({"user"})
+    public Response joinTrip(@PathParam("id") Long tripID, String jsonString) throws NotFoundException, API_Exception {
+        String username;
+        try {
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            username = json.get("username").getAsString();
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        TripDTO tripDTO = FACADE.addUserToTrip(username, tripID);
         return Response.ok().entity(tripDTO).build();
     }
 

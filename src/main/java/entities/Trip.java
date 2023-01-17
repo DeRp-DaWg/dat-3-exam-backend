@@ -21,7 +21,7 @@ public class Trip implements Serializable {
     private Long duration;
     @ElementCollection
     private List<String> packingList = new ArrayList<>();
-    @ManyToMany(targetEntity = User.class)
+    @ManyToMany(mappedBy = "trips")
     private List<User> users = new ArrayList<>();
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<Guide> guides = new ArrayList<>();
@@ -105,6 +105,7 @@ public class Trip implements Serializable {
 
     public Trip addUser(User user) {
         this.users.add(user);
+        user.getTrips().add(this);
         return this;
     }
 

@@ -1,7 +1,9 @@
 package facades;
 
+import dtos.TripDTO;
 import dtos.UserDTO;
 import entities.Role;
+import entities.Trip;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

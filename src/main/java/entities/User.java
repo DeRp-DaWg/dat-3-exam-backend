@@ -42,8 +42,12 @@ public class User implements Serializable {
     private int birthYear;
     // TODO: Change gender to enum
     private String gender;
-    @ManyToMany(targetEntity = Trip.class)
-    private List<Trip> trip;
+    @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "trip_id")
+    )
+    private List<Trip> trips;
 
     public List<String> getRolesAsStrings() {
         if (roleList.isEmpty()) {
@@ -145,12 +149,18 @@ public class User implements Serializable {
         return this;
     }
 
-    public List<Trip> getTrip() {
-        return trip;
+    public List<Trip> getTrips() {
+        return trips;
     }
 
-    public User setTrip(List<Trip> trip) {
-        this.trip = trip;
+    public User setTrips(List<Trip> trips) {
+        this.trips = trips;
+        return this;
+    }
+
+    public User addTrip(Trip trip) {
+        this.trips.add(trip);
+        trip.getUsers().add(this);
         return this;
     }
 }

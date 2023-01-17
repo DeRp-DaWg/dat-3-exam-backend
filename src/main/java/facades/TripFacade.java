@@ -2,6 +2,7 @@ package facades;
 
 import dtos.GuideDTO;
 import dtos.TripDTO;
+import dtos.UserDTO;
 import entities.Guide;
 import entities.Trip;
 
@@ -12,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
 //import errorhandling.RenameMeNotFoundException;
+import entities.User;
 import errorhandling.NotFoundException;
 
 public class TripFacade {
@@ -67,6 +69,7 @@ public class TripFacade {
         Trip trip = em.find(Trip.class, tripDTO.getId());
         updateEntity(em, trip, tripDTO);
         try {
+            em.getTransaction().begin();
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -110,5 +113,19 @@ public class TripFacade {
                 .setDuration(tripDTO.getDuration())
                 .setPackingList(tripDTO.getPackingList());
         System.out.println(trip);
+    }
+
+    public TripDTO addUserToTrip(String username, Long tripID) {
+        EntityManager em = getEntityManager();
+        User user = em.find(User.class, username);
+        Trip trip = em.find(Trip.class, tripID);
+        user.addTrip(trip);
+        try {
+            em.getTransaction().begin();
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
     }
 }
